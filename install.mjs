@@ -88,8 +88,9 @@ async function installClaudeHooks(hookPath) {
   const config = await readJsonOr(path, {});
   config.hooks ||= {};
   mergeHook(config.hooks, 'PermissionRequest', null, hookCommand(hookPath, 'claude', 'approval'));
-  mergeHook(config.hooks, 'Notification', 'permission_prompt|idle_prompt', hookCommand(hookPath, 'claude', 'auto'));
+  mergeHook(config.hooks, 'Notification', 'idle_prompt', hookCommand(hookPath, 'claude', 'question'));
   mergeHook(config.hooks, 'Stop', null, hookCommand(hookPath, 'claude', 'auto'));
+  mergeHook(config.hooks, 'StopFailure', null, hookCommand(hookPath, 'claude', 'error'));
   await writeJson(path, config);
 }
 
@@ -157,8 +158,11 @@ async function validateJson(path, fields) {
 
 async function validateGoogleServices(path) {
   const value = JSON.parse(await readFile(path, 'utf8'));
-  if (!value.project_info?.project_id || !value.client?.length) {
-    throw new Error('google-services.json is not a valid Android Firebase client config');
+  const androidClient = value.client?.find(
+    (item) => item.client_info?.android_client_info?.package_name === 'dev.agentpulse.app'
+  );
+  if (!value.project_info?.project_id || !androidClient?.client_info?.mobilesdk_app_id || !androidClient?.api_key?.[0]?.current_key) {
+    throw new Error('google-services.json must contain an Android app for dev.agentpulse.app');
   }
 }
 

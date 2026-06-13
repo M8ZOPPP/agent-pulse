@@ -113,9 +113,11 @@ The installer configures `PermissionRequest` and `Stop`. A stop event whose fina
 
 ### Claude Code
 
-The installer configures `PermissionRequest`, `Notification` (`permission_prompt|idle_prompt`), and `Stop`.
+The installer configures `PermissionRequest`, `Notification` (`idle_prompt`), `Stop`, and `StopFailure`. Permission prompts use `PermissionRequest` only, avoiding duplicate alerts.
 
 The hook adapter redacts common API keys, bearer tokens, passwords, secrets, and private-key blocks before sending summaries. It exits successfully when the relay is unavailable so it cannot block an agent session.
+
+Verified live against Claude Code 2.1.90 and Codex CLI 0.139.0 on June 13, 2026. Codex discovers the hooks immediately but keeps them inactive until you trust them in `/hooks`; this review is mandatory.
 
 ## Security notes
 

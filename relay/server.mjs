@@ -140,8 +140,13 @@ function normalizeEvent(input) {
 
 function normalizeFirebaseClientConfig(raw) {
   if (raw.project_info && Array.isArray(raw.client)) {
-    const androidClient = raw.client.find((item) => item.client_info?.android_client_info);
+    const androidClient = raw.client.find(
+      (item) => item.client_info?.android_client_info?.package_name === 'dev.agentpulse.app'
+    );
     const apiKey = androidClient?.api_key?.[0]?.current_key;
+    if (!androidClient?.client_info?.mobilesdk_app_id || !apiKey) {
+      throw new Error('Firebase client config has no dev.agentpulse.app Android client');
+    }
     return {
       appId: androidClient?.client_info?.mobilesdk_app_id,
       apiKey,

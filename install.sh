@@ -2,8 +2,12 @@
 set -euo pipefail
 
 REPO="M8ZOPPP/agent-pulse"
-if [[ -f "$(dirname "$0")/install.mjs" ]]; then
-  exec node "$(dirname "$0")/install.mjs" "$@"
+source_path="${BASH_SOURCE[0]:-}"
+if [[ -n "$source_path" && "$source_path" != /dev/stdin && "$source_path" != /dev/fd/* ]]; then
+  script_dir="$(cd "$(dirname "$source_path")" && pwd)"
+  if [[ -f "$script_dir/install.mjs" ]]; then
+    exec node "$script_dir/install.mjs" "$@"
+  fi
 fi
 
 command -v node >/dev/null || { echo "Node.js 20+ is required." >&2; exit 1; }
