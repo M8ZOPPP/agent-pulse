@@ -1,0 +1,14 @@
+<resources>
+    <color name="ink">#E8EDF6</color>
+    <color name="ink_muted">#8E9AAF</color>
+    <color name="canvas">#090D14</color>
+    <color name="surface">#111722</color>
+    <color name="surface_high">#182130</color>
+    <color name="line">#263246</color>
+    <color name="accent">#67E8F9</color>
+    <color name="accent_dark">#083344</color>
+    <color name="approval">#FBBF24</color>
+    <color name="question">#A78BFA</color>
+    <color name="complete">#34D399</color>
+    <color name="error">#FB7185</color>
+</resources>

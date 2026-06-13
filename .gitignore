@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+*.iml
+android/.gradle/
+android/local.properties
+android/app/build/
+relay/node_modules/
+relay/data/
+*.jks
+*.keystore
+.env
